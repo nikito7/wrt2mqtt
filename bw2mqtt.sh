@@ -2,7 +2,7 @@
 
 ### bw2mqtt.sh ###
 
-NAME=Router1
+NAME="Router 1"
 ID=router_10_1_0_1
 WAN1=eth0.2
 TOPIC=wrt2mqtt
@@ -10,30 +10,10 @@ TOPIC=wrt2mqtt
 ###
 
 mosquitto_pub -t homeassistant/sensor/${ID}/bw/rx/config \
--m "{\
-\"unit_of_measurement\":\"kB/s\",\
-\"icon\":\"mdi:signal\",\
-\"name\":\"$NAME BW RX\",\
-\"state_topic\":\"${TOPIC}/${ID}/bw/rx/state\",\
-\"unique_id\":\"$ID-bw-rx\",\
-\"device\":{\
-\"identifiers\":\"$ID\",\
-\"name\":\"$NAME\"}\
-}\
-"
+-m "test"
 
 mosquitto_pub -t homeassistant/sensor/${ID}/bw/tx/config \
--m "{\
-\"unit_of_measurement\":\"kB/s\",\
-\"icon\":\"mdi:signal\",\
-\"name\":\"$NAME BW TX\",\
-\"state_topic\":\"${TOPIC}/${ID}/bw/tx/state\",\
-\"unique_id\":\"$ID-bw-tx\",\
-\"device\":{\
-\"identifiers\":\"$ID\",\
-\"name\":\"$NAME\"}\
-}\
-"
+-m "test"
 
 ###
 
@@ -56,15 +36,15 @@ echo RX $result_rx
 echo TX $result_tx
 
 mosquitto_pub -t ${TOPIC}/${ID}/status -m online
-mosquitto_pub -t ${TOPIC}/${ID}/bw/rx/state -m $result_rx
-mosquitto_pub -t ${TOPIC}/${ID}/bw/tx/state -m $result_tx
+mosquitto_pub -t ${TOPIC}/${ID}/$1/rx -m $result_rx
+mosquitto_pub -t ${TOPIC}/${ID}/$1/tx -m $result_tx
 
 }
 
 while [ 2 -gt 1 ]
 do
 stats $WAN1
-sleep 10
+sleep 7
 done
 
 ### bw2mqtt.sh ###
