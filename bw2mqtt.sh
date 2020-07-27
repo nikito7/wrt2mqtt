@@ -4,12 +4,15 @@
 
 NAME=router1
 WAN1=eth0.2
-TOPIC=wrt2mqtt/${NAME}/bw
+TOPIC=wrt2mqtt
 
 ###
 
-mosquitto_pub -t homeassistant/sensor/${NAME}/config \
--m "\{ test \}"
+mosquitto_pub -t homeassistant/sensor/${NAME}/bw/rx/config \
+-m "{ test }"
+
+mosquitto_pub -t homeassistant/sensor/${NAME}/bw/tx/config \
+-m "{ test }"
 
 ###
 
@@ -31,8 +34,8 @@ result_tx="" && result_tx=$( expr $(expr $txbb - $txaa) / 1024 / 3 )
 echo RX $result_rx
 echo TX $result_tx
 
-mosquitto_pub -t $TOPIC/rx -m $result_rx
-mosquitto_pub -t $TOPIC/tx -m $result_tx
+mosquitto_pub -t ${TOPIC}/${NAME}/bw/rx -m $result_rx
+mosquitto_pub -t ${TOPIC}/${NAME}/bw/tx -m $result_tx
 
 }
 
