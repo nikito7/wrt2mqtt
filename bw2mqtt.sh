@@ -11,7 +11,7 @@ TOPIC=wrt2mqtt
 
 mosquitto_pub -t homeassistant/sensor/${NAME}/bw/rx/config \
 -m "{\
-\"unit_of_measurement\\":\"kB/s\",\
+\"unit_of_measurement\":\"kB/s\",\
 \"icon\":\"mdi:signal\",\
 \"name\":\"$NAME BW RX\",\
 \"state_topic\":\"${TOPIC}/${NAME}/bw/rx/state\",\
