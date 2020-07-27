@@ -23,6 +23,9 @@ result_tx="" && result_tx=$( expr $(expr $txbb - $txaa) / 1024 / 3 )
 echo RX $result_rx
 echo TX $result_tx
 
+mosquitto_pub -t $TOPIC/rx -m $result_rx
+mosquitto_pub -t $TOPIC/tx -m $result_tx
+
 }
 
 stats $WAN1
