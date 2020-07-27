@@ -2,18 +2,20 @@
 
 ### bw2mqtt.sh ###
 
-NAME="Router 1"
-ID=router_10_1_0_1
-WAN1=eth0.2
-TOPIC=wrt2mqtt
+name="Router 1"
+id=router_10_1_0_1
+devlist="eth0.2 eth5 eth7"
+topic=wrt2mqtt
 
 ###
 
-mosquitto_pub -t homeassistant/sensor/${ID}/bw/rx/config \
--m "test"
-
-mosquitto_pub -t homeassistant/sensor/${ID}/bw/tx/config \
--m "test"
+for dev in $devlist
+do
+mosquitto_pub -t homeassistant/sensor/$id/$dev/rx/config \
+-m "test $dev"
+mosquitto_pub -t homeassistant/sensor/$id/$dev/tx/config \
+-m "test $dev"
+done
 
 ###
 
@@ -35,15 +37,18 @@ result_tx="" && result_tx=$( expr $(expr $txbb - $txaa) / 1024 / 3 )
 echo RX $result_rx
 echo TX $result_tx
 
-mosquitto_pub -t ${TOPIC}/${ID}/status -m online
-mosquitto_pub -t ${TOPIC}/${ID}/$1/rx -m $result_rx
-mosquitto_pub -t ${TOPIC}/${ID}/$1/tx -m $result_tx
+mosquitto_pub -t $topic/$id/status -m online
+mosquitto_pub -t $topic/$id/$1/rx -m $result_rx
+mosquitto_pub -t $topic/$id/$1/tx -m $result_tx
 
 }
 
 while [ 2 -gt 1 ]
 do
-stats $WAN1
+for dev in $devlist
+do
+stats $dev
+done
 sleep 7
 done
 
