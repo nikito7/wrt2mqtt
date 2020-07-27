@@ -2,19 +2,19 @@
 
 ### bw2mqtt.sh ###
 
-NAME=router1
+NAME=Router1
 ID=router10101
 WAN1=eth0.2
 TOPIC=wrt2mqtt
 
 ###
 
-mosquitto_pub -t homeassistant/sensor/${NAME}/bw/rx/config \
+mosquitto_pub -t homeassistant/sensor/${ID}/bw/rx/config \
 -m "{\
 \"unit_of_measurement\":\"kB/s\",\
 \"icon\":\"mdi:signal\",\
 \"name\":\"$NAME BW RX\",\
-\"state_topic\":\"${TOPIC}/${NAME}/bw/rx/state\",\
+\"state_topic\":\"${TOPIC}/${ID}/bw/rx/state\",\
 \"unique_id\":\"$ID-bw-rx\",\
 \"device\":{\
 \"identifiers\":\"$ID\",\
@@ -22,8 +22,18 @@ mosquitto_pub -t homeassistant/sensor/${NAME}/bw/rx/config \
 }\
 "
 
-mosquitto_pub -t homeassistant/sensor/${NAME}/bw/tx/config \
--m "{ test }"
+mosquitto_pub -t homeassistant/sensor/${ID}/bw/tx/config \
+-m "{\
+\"unit_of_measurement\":\"kB/s\",\
+\"icon\":\"mdi:signal\",\
+\"name\":\"$NAME BW TX\",\
+\"state_topic\":\"${TOPIC}/${ID}/bw/tx/state\",\
+\"unique_id\":\"$ID-bw-tx\",\
+\"device\":{\
+\"identifiers\":\"$ID\",\
+\"name\":\"$NAME\"}\
+}\
+"
 
 ###
 
@@ -45,8 +55,8 @@ result_tx="" && result_tx=$( expr $(expr $txbb - $txaa) / 1024 / 3 )
 echo RX $result_rx
 echo TX $result_tx
 
-mosquitto_pub -t ${TOPIC}/${NAME}/bw/rx/state -m $result_rx
-mosquitto_pub -t ${TOPIC}/${NAME}/bw/tx/state -m $result_tx
+mosquitto_pub -t ${TOPIC}/${ID}/bw/rx/state -m $result_rx
+mosquitto_pub -t ${TOPIC}/${ID}/bw/tx/state -m $result_tx
 
 }
 
