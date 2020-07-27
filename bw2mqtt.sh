@@ -10,16 +10,16 @@ TOPIC=wrt2mqtt
 ###
 
 mosquitto_pub -t homeassistant/sensor/${NAME}/bw/rx/config \
--m "{
-\"unit_of_measurement\\":\"kB/s\",
-\"icon\":\"mdi:signal\",
-\"name\":\"$NAME BW RX\",
-\"state_topic\":\"${TOPIC}/${NAME}/bw/rx/state\",
-\"unique_id\":\"$ID-bw-rx\",
-\"device\":{
-\"identifiers\":\"$ID\",
-\"name\":\"$NAME\"}
-}
+-m "{\
+\"unit_of_measurement\\":\"kB/s\",\
+\"icon\":\"mdi:signal\",\
+\"name\":\"$NAME BW RX\",\
+\"state_topic\":\"${TOPIC}/${NAME}/bw/rx/state\",\
+\"unique_id\":\"$ID-bw-rx\",\
+\"device\":{\
+\"identifiers\":\"$ID\",\
+\"name\":\"$NAME\"}\
+}\
 "
 
 mosquitto_pub -t homeassistant/sensor/${NAME}/bw/tx/config \
