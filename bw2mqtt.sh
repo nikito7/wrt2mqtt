@@ -3,6 +3,7 @@
 ### bw2mqtt.sh ###
 
 WAN1=eth0.2
+TOPIC=wrt2mqtt/bw
 
 function stats()
 {
@@ -16,9 +17,11 @@ getbytes="" && getbytes=$(ifconfig $1 | grep bytes: | sed 's/:/\ /g')
 rxbb=$(echo "$getbytes" | awk '{ print $3 }')
 txbb=$(echo "$getbytes" | awk '{ print $8 }')
 
-echo RX $( expr $(expr $rxbb - $rxaa) / 1024 / 3 )
+result_rx="" && result_rx=$( expr $(expr $rxbb - $rxaa) / 1024 / 3 )
+result_tx="" && result_tx=$( expr $(expr $txbb - $txaa) / 1024 / 3 )
 
-echo TX $( expr $(expr $txbb - $txaa) / 1024 / 3 )
+echo RX $result_rx
+echo TX $result_tx
 
 }
 
