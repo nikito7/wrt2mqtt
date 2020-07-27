@@ -3,7 +3,7 @@
 ### bw2mqtt.sh ###
 
 NAME=Router1
-ID=router10101
+ID=router_10_1_0_1
 WAN1=eth0.2
 TOPIC=wrt2mqtt
 
@@ -55,12 +55,17 @@ result_tx="" && result_tx=$( expr $(expr $txbb - $txaa) / 1024 / 3 )
 echo RX $result_rx
 echo TX $result_tx
 
+mosquitto_pub -t ${TOPIC}/${ID}/status -m online
 mosquitto_pub -t ${TOPIC}/${ID}/bw/rx/state -m $result_rx
 mosquitto_pub -t ${TOPIC}/${ID}/bw/tx/state -m $result_tx
 
 }
 
+while [ 2 -gt 1 ]
+do
 stats $WAN1
+sleep 10
+done
 
 ### bw2mqtt.sh ###
 ##
