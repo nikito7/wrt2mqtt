@@ -2,8 +2,16 @@
 
 ### bw2mqtt.sh ###
 
+NAME=router1
 WAN1=eth0.2
-TOPIC=wrt2mqtt/bw
+TOPIC=wrt2mqtt/${NAME}/bw
+
+###
+
+mosquitto_pub -t homeassistant/sensor/${NAME}/config \
+-m "\{ test \}"
+
+###
 
 function stats()
 {
