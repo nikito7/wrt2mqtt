@@ -13,7 +13,7 @@ devlistx=$(echo $devlist | sed 's/\./_/g')
 
 for dev in $devlistx
 do
-for n in "rx tx"
+for n in rx tx
 do
 mosquitto_pub -t "homeassistant/sensor/$id/${dev}_${n}/config" \
 -m "{\"unit_of_measurement\":\"kBps\",\
