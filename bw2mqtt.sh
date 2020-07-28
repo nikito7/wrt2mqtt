@@ -9,7 +9,7 @@ topic=wrt2mqtt
 
 ###
 
-for dev in $(echo $devlist | sed 's/./_/g)
+for dev in $(echo $devlist | sed 's/./_/g')
 do
 for n in rx tx
 do
