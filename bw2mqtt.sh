@@ -4,7 +4,7 @@
 
 name="RT1"
 id=rt_10_1_0_1
-devlist="eth5 eth7 eth0.2"
+devlist="eth5 eth7"
 topic=wrt2mqtt
 mqttpub="mosquitto_pub"
 
@@ -27,9 +27,7 @@ $mqttpub -t "homeassistant/sensor/$id/${devx}_${1}/config" \
  "device":{
    "identifiers":"'$id'",
    "name":"'"$name"'",
-   "sw_version":"v0",
-   "model":"wrt",
-   "manufacturer":"open"}
+   "model":"wrt"}
  }'
 #
 }
