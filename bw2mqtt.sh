@@ -15,9 +15,17 @@ for dev in $devlistx
 do
 for n in rx tx
 do
+case $n in
+rx)
+icon=mdi:arrow-down
+;;
+tx)
+icon=mdi:arrow-up
+;;
+esac
 mosquitto_pub -t "homeassistant/sensor/$id/${dev}_${n}/config" \
 -m "{\"unit_of_measurement\":\"kB/s\",\
- \"icon\":\"mdi:time\",\
+ \"icon\":\"$icon\",\
  \"name\":\"$name $dev $n\",\
  \"state_topic\":\"$topic/$id/${dev}_${n}\",\
  \"availability_topic\":\"$topic/$id/status\",\
