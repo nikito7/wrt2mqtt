@@ -4,9 +4,10 @@
 
 name="RT1"
 id=rt_10_1_0_1
-devlist="eth0.2 eth5 eth7"
+devlist="eth5 eth7 eth0.2"
 topic=wrt2mqtt
 mqttpub="mosquitto_pub"
+
 ###
 
 function home()
@@ -47,14 +48,14 @@ getbytes=""; getbytes=$(ifconfig $1 | grep bytes: | sed 's/:/\ /g')
 rxaa=$(echo "$getbytes" | awk '{ print $3 }')
 txaa=$(echo "$getbytes" | awk '{ print $8 }')
 
-sleep 3
+sleep 2
 
 getbytes=""; getbytes=$(ifconfig $1 | grep bytes: | sed 's/:/\ /g')
 rxbb=$(echo "$getbytes" | awk '{ print $3 }')
 txbb=$(echo "$getbytes" | awk '{ print $8 }')
 
-result_rx=""; result_rx=$( expr $(expr $rxbb - $rxaa) / 1024 / 3 )
-result_tx=""; result_tx=$( expr $(expr $txbb - $txaa) / 1024 / 3 )
+result_rx=""; result_rx=$( expr $(expr $rxbb - $rxaa) / 1024 / 2 )
+result_tx=""; result_tx=$( expr $(expr $txbb - $txaa) / 1024 / 2 )
 
 echo RX $result_rx
 echo TX $result_tx
@@ -72,7 +73,7 @@ do
 stats $dev
 done
 
-sleep 15 && /bin/sh $0 &
+sleep 9 && /bin/sh $0 &
 
 ### bw2mqtt.sh ###
 ##
