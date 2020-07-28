@@ -2,7 +2,7 @@
 
 ### bw2mqtt.sh ###
 
-name="Router 1"
+name="RT1"
 id=rt_10_1_0_1
 devlist="eth0.2 eth5 eth7"
 topic=wrt2mqtt
@@ -19,7 +19,7 @@ $mqttpub -t "homeassistant/sensor/$id/${devx}_${1}/config" \
 -m '{
  "unit_of_measurement":"kB/s",
  "icon":"'$icon'",
- "name":"'"$name $dev $3"'",
+ "name":"'"$name $3 $dev"'",
  "state_topic":"'"$topic/$id/${devx}_${1}"'",
  "availability_topic":"'$topic/$id/status'",
  "unique_id":"'"${id}_${devx}_$1"'",
@@ -27,8 +27,8 @@ $mqttpub -t "homeassistant/sensor/$id/${devx}_${1}/config" \
    "identifiers":"'$id'",
    "name":"'"$name"'",
    "sw_version":"v0",
-   "model":"x",
-   "manufacturer":"x"}
+   "model":"wrt",
+   "manufacturer":"open"}
  }'
 #
 }
