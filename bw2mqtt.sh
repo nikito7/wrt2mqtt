@@ -20,12 +20,12 @@ mosquitto_pub -t homeassistant/sensor/$id/$dev/$n/config \
 \"state_topic\":\"$topic/$id/$dev/$n\",\
 \"availability_topic\":\"$topic/$id/status\",\
 \"unique_id\":\"$id-$dev-$n\",\
-\"device\":{\"identifiers\":\"$id\",\
+\"device\":{\
+\"identifiers\":\"$id\",\
 \"name\":\"$id\",\
 \"sw_version\":\"v0",\
 \"model\":\"x\",\
-\"manufacturer\":\"x\"}}\
-"
+\"manufacturer\":\"x\"}}"
 done
 done
 
