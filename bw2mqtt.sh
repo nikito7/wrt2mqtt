@@ -30,7 +30,7 @@ mosquitto_pub -t "homeassistant/sensor/$id/${devx}_${1}/config" \
  "manufacturer":"x"}}'
 }
 
-for dev in $devlistx
+for dev in $devlist
 do
 home rx mdi:arrow-down RX $dev
 home tx mdi:arrow-up TX $dev
