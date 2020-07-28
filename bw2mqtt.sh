@@ -9,11 +9,11 @@ topic=wrt2mqtt
 
 ###
 
-for dev in $devlist
+for dev in $(echo $devlist | sed 's/./_/g)
 do
 for n in rx tx
 do
-mosquitto_pub -t homeassistant/sensor/$id/$dev/$n/config \
+mosquitto_pub -t homeassistant/sensor/$id/$dev_$n/config \
 -m "{\"unit_of_measurement\":\"kBps\",\
  \"icon\":\"mdi:timer\",\
  \"name\":\"$id $dev $n\",\
