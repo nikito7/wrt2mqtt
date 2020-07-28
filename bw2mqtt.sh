@@ -11,32 +11,27 @@ topic=wrt2mqtt
 
 devlistx=$(echo $devlist | sed 's/\./_/g')
 
+function home()
+{
+mosquitto_pub -t "homeassistant/sensor/$id/${dev}_${1}/config" \
+-m '{\"unit_of_measurement":"kB/s",\
+ "icon":"$2",\
+ "name":"$name $dev $3",\
+ "state_topic":"$topic/$id/${dev}_${1}",\
+ "availability_topic":"$topic/$id/status",\
+ "unique_id":"$id-$dev-$1",\
+ "device":{\
+ "identifiers":"$id",\
+ "name":"$name",\
+ "sw_version":"v0",\
+ "model":"x",\
+ "manufacturer":"x"}}'
+}
+
 for dev in $devlistx
 do
-for n in rx tx
-do
-case $n in
-rx)
-icon=mdi:arrow-down
-;;
-tx)
-icon=mdi:arrow-up
-;;
-esac
-mosquitto_pub -t "homeassistant/sensor/$id/${dev}_${n}/config" \
--m "{\"unit_of_measurement\":\"kB/s\",\
- \"icon\":\"$icon\",\
- \"name\":\"$name $dev $n\",\
- \"state_topic\":\"$topic/$id/${dev}_${n}\",\
- \"availability_topic\":\"$topic/$id/status\",\
- \"unique_id\":\"$id-$dev-$n\",\
- \"device\":{\
- \"identifiers\":\"$id\",\
- \"name\":\"$name\",\
- \"sw_version\":\"v0\",\
- \"model\":\"x\",\
- \"manufacturer\":\"x\"}}"
-done
+home rx mdi:arrow-down RX
+home tx mdi:arrow-up TX
 done
 
 ###
