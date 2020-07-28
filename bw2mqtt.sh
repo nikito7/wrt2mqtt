@@ -14,20 +14,23 @@ function home()
 icon=$2
 dev=$4
 devx=$(echo $4 | sed 's/\./_/g')
-
+#
 mosquitto_pub -t "homeassistant/sensor/$id/${devx}_${1}/config" \
--m '{\"unit_of_measurement":"kB/s",\
- "icon":"$icon",\
- "name":"$name $dev $3",\
- "state_topic":"$topic/$id/${devx}_${1}",\
- "availability_topic":"$topic/$id/status",\
- "unique_id":"${id}_${devx}_$1",\
- "device":{\
- "identifiers":"$id",\
- "name":"$name",\
- "sw_version":"v0",\
- "model":"x",\
- "manufacturer":"x"}}'
+-m '{
+ "unit_of_measurement":"kB/s",
+ "icon":"$icon",
+ "name":"$name $dev $3",
+ "state_topic":"$topic/$id/${devx}_${1}",
+ "availability_topic":"$topic/$id/status",
+ "unique_id":"${id}_${devx}_$1",
+ "device":{
+   "identifiers":"$id",
+   "name":"$name",
+   "sw_version":"v0",
+   "model":"x",
+   "manufacturer":"x"}
+ }'
+#
 }
 
 for dev in $devlist
