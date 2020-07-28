@@ -32,6 +32,8 @@ $mqttpub -t "homeassistant/sensor/$id/${devx}_${1}/config" \
 #
 }
 
+###
+
 for dev in $devlist
 do
 home rx mdi:arrow-down RX $dev
@@ -46,14 +48,14 @@ getbytes=""; getbytes=$(ifconfig $1 | grep bytes: | sed 's/:/\ /g')
 rxaa=$(echo "$getbytes" | awk '{ print $3 }')
 txaa=$(echo "$getbytes" | awk '{ print $8 }')
 
-sleep 2
+sleep 3
 
 getbytes=""; getbytes=$(ifconfig $1 | grep bytes: | sed 's/:/\ /g')
 rxbb=$(echo "$getbytes" | awk '{ print $3 }')
 txbb=$(echo "$getbytes" | awk '{ print $8 }')
 
-result_rx=""; result_rx=$( expr $(expr $rxbb - $rxaa) / 1024 / 2 )
-result_tx=""; result_tx=$( expr $(expr $txbb - $txaa) / 1024 / 2 )
+result_rx=""; result_rx=$( expr $(expr $rxbb - $rxaa) / 1024 / 3 )
+result_tx=""; result_tx=$( expr $(expr $txbb - $txaa) / 1024 / 3 )
 
 echo RX $result_rx
 echo TX $result_tx
@@ -71,7 +73,7 @@ do
 stats $dev
 done
 
-sleep 9 && /bin/sh $0 &
+sleep 7 && /bin/sh $0 &
 
 ### bw2mqtt.sh ###
 ##
