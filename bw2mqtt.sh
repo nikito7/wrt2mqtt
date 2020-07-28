@@ -3,13 +3,13 @@
 ### bw2mqtt.sh ###
 
 name="Router 1"
-id=router_10_1_0_1
+id=router_10101
 devlist="eth0.2 eth5 eth7"
 topic=wrt2mqtt
 
 ###
 
-devlistx=$(echo $devlist | sed 's/./_/g')
+devlistx=$(echo $devlist | sed 's/\./_/g')
 
 for dev in $devlistx
 do
@@ -51,7 +51,7 @@ result_tx="" && result_tx=$( expr $(expr $txbb - $txaa) / 1024 / 3 )
 echo RX $result_rx
 echo TX $result_tx
 
-devx=$(echo $1 | sed 's/./_/g')
+devx=$(echo $1 | sed 's/\./_/g')
 
 mosquitto_pub -t $topic/$id/status -m online
 mosquitto_pub -t $topic/$id/$devx/rx -m $result_rx
