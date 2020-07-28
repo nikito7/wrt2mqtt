@@ -13,7 +13,7 @@ for dev in $devlist
 do
 for n in rx tx
 do
-#mosquitto_pub -t homeassistant/sensor/$id/$dev/$n/config \
+mosquitto_pub -t homeassistant/sensor/$id/$dev/$n/config \
 -m " {\"unit_of_measurement\":\"kBps\",\
  \"icon\":\"mdi:timer\",\
  \"name\":\"$id $dev $n\",\
