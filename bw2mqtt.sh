@@ -13,13 +13,13 @@ devlistx=$(echo $devlist | sed 's/\./_/g')
 
 function home()
 {
-mosquitto_pub -t "homeassistant/sensor/$id/${dev}_${1}/config" \
+mosquitto_pub -t "homeassistant/sensor/$id/${4}_${1}/config" \
 -m '{\"unit_of_measurement":"kB/s",\
  "icon":"$2",\
- "name":"$name $dev $3",\
- "state_topic":"$topic/$id/${dev}_${1}",\
+ "name":"$name $4 $3",\
+ "state_topic":"$topic/$id/${4}_${1}",\
  "availability_topic":"$topic/$id/status",\
- "unique_id":"$id-$dev-$1",\
+ "unique_id":"$id-$4-$1",\
  "device":{\
  "identifiers":"$id",\
  "name":"$name",\
@@ -30,8 +30,8 @@ mosquitto_pub -t "homeassistant/sensor/$id/${dev}_${1}/config" \
 
 for dev in $devlistx
 do
-home rx mdi:arrow-down RX
-home tx mdi:arrow-up TX
+home rx mdi:arrow-down RX $dev
+home tx mdi:arrow-up TX $dev
 done
 
 ###
