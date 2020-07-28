@@ -42,6 +42,23 @@ done
 
 ###
 
+$mqttpub -t "homeassistant/binary_sensor/$id/${id}_status/config" \
+-m '{
+  "device_class":"connectivity",
+  "payload_on":"online",
+  "payload_off":"offline",
+  "name":"'"$name Status"'",
+  "state_topic":"'"$topic/$id/status"'",
+  "availability_topic":"'$topic/$id/status'",
+  "unique_id":"'"${id}_status"'",
+  "device":{
+    "identifiers":"'$id'",
+    "name":"'"$name"'",
+    "model":"wrt"}
+  }'
+
+###
+
 function stats()
 {
 getbytes=""; getbytes=$(ifconfig $1 | grep bytes: | sed 's/:/\ /g')
