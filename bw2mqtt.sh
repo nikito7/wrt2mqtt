@@ -6,7 +6,7 @@ name="Router 1"
 id=rt_10_1_0_1
 devlist="eth0.2 eth5 eth7"
 topic=wrt2mqtt
-
+mqttpub="mosquitto_pub"
 ###
 
 function home()
@@ -15,7 +15,7 @@ icon=$2
 dev=$4
 devx=$(echo $4 | sed 's/\./_/g')
 #
-mosquitto_pub -t "homeassistant/sensor/$id/${devx}_${1}/config" \
+$mqttpub -t "homeassistant/sensor/$id/${devx}_${1}/config" \
 -m '{
  "unit_of_measurement":"kB/s",
  "icon":"'$icon'",
@@ -61,9 +61,9 @@ echo TX $result_tx
 
 devx=$(echo $1 | sed 's/\./_/g')
 
-mosquitto_pub -t $topic/$id/status -m online
-mosquitto_pub -t $topic/$id/${devx}_rx -m $result_rx
-mosquitto_pub -t $topic/$id/${devx}_tx -m $result_tx
+$mqttpub -t $topic/$id/status -m online
+$mqttpub -t $topic/$id/${devx}_rx -m $result_rx
+$mqttpub -t $topic/$id/${devx}_tx -m $result_tx
 
 }
 
@@ -72,7 +72,7 @@ do
 stats $dev
 done
 
-#sleep 15 && /bin/sh $0 &
+sleep 15 && /bin/sh $0 &
 
 ### bw2mqtt.sh ###
 ##
