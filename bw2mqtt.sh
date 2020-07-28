@@ -14,7 +14,7 @@ do
 for n in rx tx
 do
 mosquitto_pub -t homeassistant/sensor/$id/$dev/$n/config \
--m " {\"unit_of_measurement\":\"kBps\",\
+-m "{\"unit_of_measurement\":\"kBps\",\
  \"icon\":\"mdi:timer\",\
  \"name\":\"$id $dev $n\",\
  \"state_topic\":\"$topic/$id/$dev/$n\",\
@@ -23,9 +23,9 @@ mosquitto_pub -t homeassistant/sensor/$id/$dev/$n/config \
  \"device\":{\
  \"identifiers\":\"$id\",\
  \"name\":\"$id\",\
- \"sw_version\":\"v0",\
+ \"sw_version\":\"v0\",\
  \"model\":\"x\",\
- \"manufacturer\":\"x\"}} "
+ \"manufacturer\":\"x\"}}"
 done
 done
 
