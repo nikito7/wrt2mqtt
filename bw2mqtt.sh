@@ -9,11 +9,13 @@ topic=wrt2mqtt
 
 ###
 
-for dev in $(echo $devlist | sed 's/./_/g')
+devlistx=$(echo $devlist | sed 's/./_/g')
+
+for dev in $devlistx
 do
-for n in rx tx
+for n in "rx tx"
 do
-mosquitto_pub -t "homeassistant/sensor/$id/${dev}_$n/config" \
+mosquitto_pub -t "homeassistant/sensor/$id/${dev}_${n}/config" \
 -m "{\"unit_of_measurement\":\"kBps\",\
  \"icon\":\"mdi:timer\",\
  \"name\":\"$id $dev $n\",\
@@ -49,9 +51,11 @@ result_tx="" && result_tx=$( expr $(expr $txbb - $txaa) / 1024 / 3 )
 echo RX $result_rx
 echo TX $result_tx
 
+devx=$(echo $1 | sed 's/./_/g')
+
 mosquitto_pub -t $topic/$id/status -m online
-mosquitto_pub -t $topic/$id/$1/rx -m $result_rx
-mosquitto_pub -t $topic/$id/$1/tx -m $result_tx
+mosquitto_pub -t $topic/$id/$devx/rx -m $result_rx
+mosquitto_pub -t $topic/$id/$devx/tx -m $result_tx
 
 }
 
