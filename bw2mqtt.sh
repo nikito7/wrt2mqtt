@@ -13,7 +13,7 @@ for dev in $(echo $devlist | sed 's/./_/g')
 do
 for n in rx tx
 do
-mosquitto_pub -t homeassistant/sensor/$id/$dev_$n/config \
+mosquitto_pub -t "homeassistant/sensor/$id/${dev}_$n/config" \
 -m "{\"unit_of_measurement\":\"kBps\",\
  \"icon\":\"mdi:timer\",\
  \"name\":\"$id $dev $n\",\
