@@ -3,7 +3,7 @@
 ### bw2mqtt.sh ###
 
 name="Router 1"
-id=router_10101
+id=rt01
 devlist="eth0.2 eth5 eth7"
 topic=wrt2mqtt
 
@@ -16,8 +16,8 @@ do
 for n in rx tx
 do
 mosquitto_pub -t "homeassistant/sensor/$id/${dev}_${n}/config" \
--m "{\"unit_of_measurement\":\"kBps\",\
- \"icon\":\"mdi:timer\",\
+-m "{\"unit_of_measurement\":\"kB/s\",\
+ \"icon\":\"mdi:arrow\",\
  \"name\":\"$id $dev $n\",\
  \"state_topic\":\"$topic/$id/$dev/$n\",\
  \"availability_topic\":\"$topic/$id/status\",\
