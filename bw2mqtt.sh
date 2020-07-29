@@ -3,8 +3,8 @@
 ### bw2mqtt.sh ###
 
 name="RT1"
-id=rt_10_1_0_1
-devlist="eth5 eth7"
+id=rt_01
+devlist="eth5 eth7 eth0.2"
 topic=wrt2mqtt
 mqttpub="mosquitto_pub"
 
