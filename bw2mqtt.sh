@@ -3,11 +3,12 @@
 ### bw2mqtt.sh ###
 
 name="RT1"
-id=rt_01
+id=rt_101_v1
 devlist="eth0.2 eth5 eth7"
 topic=wrt2mqtt
 mqttpub="mosquitto_pub"
 interval=2
+model=$(cat /proc/cpuinfo | grep machine | awk '{ print $3 }')
 
 ###
 
@@ -16,7 +17,6 @@ function home()
 icon=$2
 dev=$4
 devx=$(echo $4 | sed 's/\./_/g')
-model=$(cat /proc/cpuinfo | grep machine | awk '{ print $3 }')
 #
 $mqttpub -t "homeassistant/sensor/$id/${devx}_${1}/config" \
 -m '{
@@ -43,7 +43,7 @@ do
 home rx mdi:arrow-down RX $dev
 home tx mdi:arrow-up TX $dev
 done
-echo "1" > /tmp/bw2mqtt.config.$id
+echo $id > /tmp/bw2mqtt.config.$id
 fi
 
 ###
