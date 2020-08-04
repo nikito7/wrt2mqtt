@@ -28,7 +28,7 @@ $mqttpub -t "homeassistant/sensor/$id/${devx}_${1}/config" \
  "device":{
    "identifiers":"'$id'",
    "name":"'"$name"'",
-   "model":"wrt"}
+   "model":"'"$(cat /proc/cpuinfo | grep machine | awk "{ print $3 }")"'"}
  }'
 #
 }
