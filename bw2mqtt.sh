@@ -60,7 +60,7 @@ $mqttpub -t "homeassistant/binary_sensor/$id/${id}_status/config" \
   "device":{
     "identifiers":"'$id'",
     "name":"'"$name"'",
-    "model":"wrt"}
+    "model":"'"$model"'"}
   }'
 
 ###
