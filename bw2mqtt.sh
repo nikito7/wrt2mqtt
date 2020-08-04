@@ -4,10 +4,10 @@
 
 name="RT1"
 id=rt_01
-devlist="eth5 eth7"
+devlist="eth0.2 eth5 eth7"
 topic=wrt2mqtt
 mqttpub="mosquitto_pub"
-interval=5
+interval=2
 
 ###
 
@@ -35,12 +35,15 @@ $mqttpub -t "homeassistant/sensor/$id/${devx}_${1}/config" \
 
 ###
 
+if [ ! -e /tmp/bw2mqtt.config.$id ]
+then
 for dev in $devlist
 do
 home rx mdi:arrow-down RX $dev
 home tx mdi:arrow-up TX $dev
 done
-
+echo "1" > /tmp/bw2mqtt.config.$id
+fi
 ###
 
 $mqttpub -t "homeassistant/binary_sensor/$id/${id}_status/config" \
