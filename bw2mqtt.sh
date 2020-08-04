@@ -16,6 +16,7 @@ function home()
 icon=$2
 dev=$4
 devx=$(echo $4 | sed 's/\./_/g')
+model=$(cat /proc/cpuinfo | grep machine | awk '{ print $3 }')
 #
 $mqttpub -t "homeassistant/sensor/$id/${devx}_${1}/config" \
 -m '{
@@ -28,7 +29,7 @@ $mqttpub -t "homeassistant/sensor/$id/${devx}_${1}/config" \
  "device":{
    "identifiers":"'$id'",
    "name":"'"$name"'",
-   "model":"'"$(cat /proc/cpuinfo | grep machine | awk "{ print $3 }")"'"}
+   "model":"'"$model"'"}
  }'
 #
 }
@@ -44,6 +45,7 @@ home tx mdi:arrow-up TX $dev
 done
 echo "1" > /tmp/bw2mqtt.config.$id
 fi
+
 ###
 
 $mqttpub -t "homeassistant/binary_sensor/$id/${id}_status/config" \
