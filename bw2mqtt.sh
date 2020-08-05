@@ -44,6 +44,7 @@ home rx mdi:arrow-down RX $dev
 home tx mdi:arrow-up TX $dev
 done
 echo ${id} > /tmp/bw2mqtt.config.${id}
+sleep 30 && rm /tmp/bw2mqtt.config.${id} &
 fi
 
 ###
