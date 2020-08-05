@@ -3,7 +3,7 @@
 ### bw2mqtt.sh ###
 
 name="Router 1"
-id=rt_1_test3
+id=rt_1_v2
 devlist="eth0.2 eth5"
 topic=wrt2mqtt
 mqttpub="mosquitto_pub"
