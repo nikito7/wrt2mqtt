@@ -3,7 +3,7 @@
 ### bw2mqtt.sh ###
 
 name="Router 1"
-id=rt_1_v2
+id=rt_1_test3
 devlist="eth0.2 eth5"
 topic=wrt2mqtt
 mqttpub="mosquitto_pub"
@@ -36,16 +36,11 @@ $mqttpub -t "homeassistant/sensor/${id}/${devx}_${1}/config" \
 
 ###
 
-if [ ! -e /tmp/bw2mqtt.config.${id} ]
-then
 for dev in $devlist
 do
 home rx mdi:arrow-down RX $dev
 home tx mdi:arrow-up TX $dev
 done
-echo ${id} > /tmp/bw2mqtt.config.${id}
-sleep 30 && rm /tmp/bw2mqtt.config.${id} &
-fi
 
 ###
 
@@ -80,9 +75,6 @@ txbb=$(echo "$getbytes" | awk '{ print $8 }')
 
 result_rx=""; result_rx=$( expr $(expr $rxbb - $rxaa) / 1024 / $interval )
 result_tx=""; result_tx=$( expr $(expr $txbb - $txaa) / 1024 / $interval )
-
-echo RX $result_rx
-echo TX $result_tx
 
 devx=$(echo $1 | sed 's/\./_/g')
 
