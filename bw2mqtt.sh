@@ -94,8 +94,6 @@ done
 
 ###
 
-$mqttpub -t $topic/${id}/status -m offline
-
 sleep $interval && /bin/sh $0 &
 
 ### bw2mqtt.sh ###
