@@ -12,6 +12,10 @@ model=$(cat /proc/cpuinfo | grep machine | awk '{ print $3 }')
 
 ###
 
+$mqttpub -t $topic/${id}/status -m online
+
+###
+
 function home()
 {
 icon=$2
@@ -78,7 +82,6 @@ result_tx=""; result_tx=$( expr $(expr $txbb - $txaa) / 1024 / $interval )
 
 devx=$(echo $1 | sed 's/\./_/g')
 
-$mqttpub -t $topic/${id}/status -m online
 $mqttpub -t $topic/${id}/${devx}_rx -m $result_rx
 $mqttpub -t $topic/${id}/${devx}_tx -m $result_tx
 
@@ -88,6 +91,10 @@ for dev in $devlist
 do
 stats $dev
 done
+
+###
+
+$mqttpub -t $topic/${id}/status -m offline
 
 sleep $interval && /bin/sh $0 &
 
