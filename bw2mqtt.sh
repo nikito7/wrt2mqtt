@@ -6,14 +6,10 @@ name="WAN"
 id=wan_rt1
 devlist="eth0.2 eth5 eth7"
 topic=wrt2mqtt
-mqttpub="mosquitto_pub -h 10.1.0.1 -k 15 -i $id"
+mqttpub="mosquitto_pub -h 10.1.0.1 -k 5 -i $id"
 interval=1
 limit=999
 model=$(cat /proc/cpuinfo | grep machine | awk '{ print $3 }')
-
-###
-
-$mqttpub -t $topic/${id}/status -m online
 
 ###
 
@@ -29,7 +25,6 @@ $mqttpub -t "homeassistant/sensor/${id}/${devx}_${1}/config" \
  "icon":"'$icon'",
  "name":"'"$name $dev $3"'",
  "state_topic":"'"$topic/${id}/${devx}_${1}"'",
- "availability_topic":"'$topic/${id}/status'",
  "unique_id":"'"${id}_${devx}_$1"'",
  "device":{
    "identifiers":"'${id}'",
@@ -46,23 +41,6 @@ do
 home rx mdi:arrow-down RX $dev
 home tx mdi:arrow-up TX $dev
 done
-
-###
-
-$mqttpub -t "homeassistant/binary_sensor/${id}/${id}_status/config" \
--m '{
-  "device_class":"connectivity",
-  "payload_on":"online",
-  "payload_off":"offline",
-  "name":"'"$name Status"'",
-  "state_topic":"'"$topic/${id}/status"'",
-  "availability_topic":"'$topic/${id}/status'",
-  "unique_id":"'"${id}_status"'",
-  "device":{
-    "identifiers":"'${id}'",
-    "name":"'"$name"'",
-    "model":"'"$model"'"}
-  }'
 
 ###
 
@@ -105,7 +83,7 @@ done
 
 ###
 
-sleep 5 && /bin/sh $0 &
+sleep $interval && /bin/sh $0 &
 
 ### bw2mqtt.sh ###
 ##
