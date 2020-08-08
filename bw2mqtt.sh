@@ -8,7 +8,8 @@ devlist="eth0.2 eth5 eth7"
 topic=wrt2mqtt
 mqttpub="mosquitto_pub -h 10.1.0.1 -k 5 -i $id"
 interval=1
-limit=999
+rxlimit=2000
+txlimit=500
 model=$(cat /proc/cpuinfo | grep machine | awk '{ print $3 }')
 
 ###
@@ -59,14 +60,14 @@ txbb=$(echo "$getbytes" | awk '{ print $8 }')
 result_rx=""; result_rx=$( expr $(expr $rxbb - $rxaa) / 1024 / $interval )
 result_tx=""; result_tx=$( expr $(expr $txbb - $txaa) / 1024 / $interval )
 
-if [ $result_rx -gt $limit ]
+if [ $result_rx -gt $rxlimit ]
 then
-result_rx=$limit
+result_rx=$rxlimit
 fi
 
-if [ $result_tx -gt $limit ]
+if [ $result_tx -gt $txlimit ]
 then
-result_tx=$limit
+result_tx=$txlimit
 fi
 
 devx=$(echo $1 | sed 's/\./_/g')
