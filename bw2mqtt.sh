@@ -61,12 +61,12 @@ result_tx=""; result_tx=$( expr $(expr $txbb - $txaa) / 1024 / $interval )
 
 if [ $result_rx -gt $limit ]
 then
-result_rx=999
+result_rx=$limit
 fi
 
 if [ $result_tx -gt $limit ]
 then
-result_tx=999
+result_tx=$limit
 fi
 
 devx=$(echo $1 | sed 's/\./_/g')
