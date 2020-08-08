@@ -8,6 +8,7 @@ devlist="eth0.2 eth5 eth7"
 topic=wrt2mqtt
 mqttpub="mosquitto_pub -h 10.1.0.1"
 interval=1
+limit=999
 model=$(cat /proc/cpuinfo | grep machine | awk '{ print $3 }')
 
 ###
@@ -80,6 +81,16 @@ txbb=$(echo "$getbytes" | awk '{ print $8 }')
 result_rx=""; result_rx=$( expr $(expr $rxbb - $rxaa) / 1024 / $interval )
 result_tx=""; result_tx=$( expr $(expr $txbb - $txaa) / 1024 / $interval )
 
+if [ $result_rx -gt $limit ]
+then
+result_rx=999
+fi
+
+if [ $result_tx -gt $limit ]
+then
+result_tx=999
+fi
+
 devx=$(echo $1 | sed 's/\./_/g')
 
 $mqttpub -t $topic/${id}/${devx}_rx -m $result_rx
@@ -94,7 +105,7 @@ done
 
 ###
 
-sleep $interval && /bin/sh $0 &
+sleep 5 && /bin/sh $0 &
 
 ### bw2mqtt.sh ###
 ##
