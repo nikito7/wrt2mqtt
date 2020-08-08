@@ -2,8 +2,8 @@
 
 ### bw2mqtt.sh ###
 
-name="WAN"
-id=wan_rt1
+name="WAN1"
+id=wan_rt1_v2
 devlist="eth0.2 eth5 eth7"
 topic=wrt2mqtt
 mqttpub="mosquitto_pub -h 10.1.0.1 -k 5 -i $id"
