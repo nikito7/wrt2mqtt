@@ -23,6 +23,7 @@ devx=$(echo $4 | sed 's/\./_/g')
 $mqttpub -t "homeassistant/sensor/${id}/${devx}_${1}/config" \
 -m '{
  "unit_of_measurement":"kB/s",
+ "expire_after":"10",
  "icon":"'$icon'",
  "name":"'"$name $dev $3"'",
  "state_topic":"'"$topic/${id}/${devx}_${1}"'",
