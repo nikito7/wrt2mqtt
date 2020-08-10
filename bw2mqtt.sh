@@ -2,7 +2,7 @@
 
 ### bw2mqtt.sh ###
 
-name="Dual WAN"
+name="WAN"
 id=wan_rt1_v2
 devlist="eth0.2 eth5 eth7"
 topic=wrt2mqtt
