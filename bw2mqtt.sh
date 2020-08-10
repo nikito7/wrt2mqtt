@@ -2,7 +2,7 @@
 
 ### bw2mqtt.sh ###
 
-name="WAN1"
+name="Dual WAN"
 id=wan_rt1_v2
 devlist="eth0.2 eth5 eth7"
 topic=wrt2mqtt
@@ -84,7 +84,7 @@ done
 
 ###
 
-sleep $interval && /bin/sh $0 &
+sleep $interval && /bin/sh $0 $id &
 
 ### bw2mqtt.sh ###
 ##
