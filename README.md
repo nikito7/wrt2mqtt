@@ -5,3 +5,5 @@ wrt to mqtt scripts
 bandwidth to mqtt
 
 home assistant
+
+#mqtt
