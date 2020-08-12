@@ -4,10 +4,10 @@
 
 name="WAN"
 id=wan_rt1
-devlist="eth0.2 wlan0"
+devlist="eth0.2 eth5 eth7"
 topic=wrt2mqtt
 mqttpub="mosquitto_pub -k 5 -i $id"
-interval=3
+interval=2
 rxlimit=1500
 txlimit=400
 model=$(cat /proc/cpuinfo | grep machine | awk '{ print $3 }')
@@ -15,6 +15,11 @@ model=$(cat /proc/cpuinfo | grep machine | awk '{ print $3 }')
 ###
 
 $mqttpub -t $topic/${id}/status -m online
+
+if [ $1 ]
+then
+devlist=$1
+fi
 
 ###
 
@@ -108,7 +113,10 @@ done
 
 ###
 
-sleep $interval && /bin/sh $0 $id &
+for dev in $devlist
+do
+/bin/sh $0 $dev &
+done
 
 ### bw2mqtt.sh ###
 ##
