@@ -7,9 +7,9 @@ id=wan_rt1
 devlist="eth0.2 eth5 eth7"
 topic=wrt2mqtt
 mqttpub="mosquitto_pub -k 5 -i $id"
-interval=2
-rxlimit=1500
-txlimit=400
+interval=5
+rxlimit=1999
+txlimit=499
 model=$(cat /proc/cpuinfo | grep machine | awk '{ print $3 }')
 
 ###
@@ -32,7 +32,7 @@ devx=$(echo $4 | sed 's/\./_/g')
 $mqttpub -t "homeassistant/sensor/${id}/${devx}_${1}/config" \
 -m '{
  "unit_of_measurement":"kB/s",
- "expire_after":"10",
+ "expire_after":"15",
  "icon":"'$icon'",
  "name":"'"$name $dev $3"'",
  "state_topic":"'"$topic/${id}/${devx}_${1}"'",
@@ -61,7 +61,7 @@ $mqttpub -t "homeassistant/binary_sensor/${id}/${id}_status/config" \
  "device_class":"connectivity",
  "payload_on":"online",
  "payload_off":"offline",
- "expire_after":"10",
+ "expire_after":"15",
  "name":"'"$name Status"'",
  "state_topic":"'"$topic/${id}/status"'",
  "availability_topic":"'$topic/${id}/status'",
