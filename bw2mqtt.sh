@@ -6,9 +6,9 @@ name="WAN"
 id=wan_rt1
 devlist="eth0.2 eth5 eth7"
 topic=wrt2mqtt
-mqttpub="mosquitto_pub -k 5 -i $id"
+mqttpub="mosquitto_pub"
 interval=5
-rxlimit=1999
+rxlimit=1499
 txlimit=499
 model=$(cat /proc/cpuinfo | grep machine | awk '{ print $3 }')
 
