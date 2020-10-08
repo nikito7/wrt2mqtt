@@ -77,7 +77,7 @@ function stats()
 
 sleep $interval
 
-ping_result=$(ping -c 1 -I $1 $host | grep time | awk -F "time=" '{ print $2 }' | awk -F . '{ print $1 }')   
+ping_result=$(ping -c 1 -W 1 -I $1 $host | grep time | awk -F "time=" '{ print $2 }' | awk -F . '{ print $1 }')   
 
 devx=$(echo $1 | sed 's/\./_/g')
 
