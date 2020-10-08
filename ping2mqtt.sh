@@ -7,6 +7,7 @@ id=wan_rt1
 devlist="eth5 eth7"
 topic=wrt2mqtt
 host=8.8.8.8
+interval=2
 mqttpub="mosquitto_pub"
 model=$(cat /proc/cpuinfo | grep machine | awk '{ print $3 }')
 
@@ -74,11 +75,13 @@ $mqttpub -t "homeassistant/binary_sensor/${id}/${id}_status/config" \
 function stats()
 {
 
+sleep $interval
+
 ping_result=$(ping -c 1 -I $1 $host | grep time | awk -F "time=" '{ print $2 }' | awk '{ print $1 }')   
 
 devx=$(echo $1 | sed 's/\./_/g')
 
-$mqttpub -t $topic/${id}/${devx}_rx -m $ping_result
+$mqttpub -t $topic/${id}/${devx}_ping -m $ping_result
 
 }
 
