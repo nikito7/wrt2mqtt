@@ -8,6 +8,7 @@ devlist="eth5 eth7"
 topic=wrt2mqtt
 host=8.8.8.8
 interval=10
+limit=299
 mqttpub="mosquitto_pub"
 model=$(cat /proc/cpuinfo | grep machine | awk '{ print $3 }')
 
@@ -77,9 +78,16 @@ function stats()
 
 sleep $interval
 
+ping_result="-1"
+
 ping_result=$(ping -c 1 -W 1 -I $1 $host | grep time | awk -F "time=" '{ print $2 }' | awk -F . '{ print $1 }')   
 
 devx=$(echo $1 | sed 's/\./_/g')
+
+if [ $ping_result -gt $limit ]
+then
+ping_result=$limit
+fi
 
 $mqttpub -t $topic/${id}/${devx}_ping -m $ping_result
 
