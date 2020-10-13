@@ -8,7 +8,7 @@ devlist="eth5 eth7"
 topic=wrt2mqtt
 host=8.8.8.8
 interval=10
-limit=299
+limit=199
 mqttpub="mosquitto_pub"
 model=$(cat /proc/cpuinfo | grep machine | awk '{ print $3 }')
 
@@ -50,7 +50,7 @@ $mqttpub -t "homeassistant/sensor/${id}/${devx}_${1}/config" \
 
 for dev in $devlist
 do
-home ping mdi:clock Ping $dev
+home ping mdi:gauge Ping $dev
 done
 
 ###
