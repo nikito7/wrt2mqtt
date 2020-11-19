@@ -80,10 +80,7 @@ sleep $interval
 
 ping_result="-1"
 
-ping_result=$(
-ping -c 1 -W 1 -I $1 $host | grep time | awk -F "time=" '{ print $2 }' | awk -F . '{ print $1 }'
-
-)   
+ping_result=$(ping -c 10 -I $1 $host | grep trip | awk -F / '{ print $4 }' | awk -F . '{ print $1 }')   
 
 devx=$(echo $1 | sed 's/\./_/g')
 
