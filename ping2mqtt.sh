@@ -8,7 +8,7 @@ devlist="eth5 eth7"
 topic=wrt2mqtt
 host=8.8.8.8
 interval=30
-limit=999
+limit=400
 mqttpub="mosquitto_pub"
 model=$(cat /proc/cpuinfo | grep machine | awk '{ print $3 }')
 
@@ -38,6 +38,21 @@ $mqttpub -t "homeassistant/sensor/${id}/${devx}_${1}/config" \
  "state_topic":"'"$topic/${id}/${devx}_${1}"'",
  "availability_topic":"'$topic/${id}/status'",
  "unique_id":"'"${id}_${devx}_$1"'",
+ "device":{
+   "identifiers":"'${id}'",
+   "name":"'"$name"'",
+   "model":"'"$model"'"}
+ }'
+#
+$mqttpub -t "homeassistant/sensor/${id}/${devx}_${1}_limit/config" \
+-m '{
+ "unit_of_measurement":"ms",
+ "expire_after":"90",
+ "icon":"'$icon'",
+ "name":"'"$name $dev $3 L"'",
+ "state_topic":"'"$topic/${id}/${devx}_${1}_limit"'",
+ "availability_topic":"'$topic/${id}/status'",
+ "unique_id":"'"${id}_${devx}_${1}_limit"'",
  "device":{
    "identifiers":"'${id}'",
    "name":"'"$name"'",
@@ -84,12 +99,14 @@ ping_result=$(ping -c 10 -I $1 $host | grep trip | awk -F / '{ print $4 }' | awk
 
 devx=$(echo $1 | sed 's/\./_/g')
 
+$mqttpub -t $topic/${id}/${devx}_ping -m $ping_result
+
 if [ $ping_result -gt $limit ]
 then
 ping_result=$limit
 fi
 
-$mqttpub -t $topic/${id}/${devx}_ping -m $ping_result
+$mqttpub -t $topic/${id}/${devx}_ping_limit -m $ping_result
 
 }
 
