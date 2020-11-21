@@ -8,8 +8,8 @@ devlist="eth5 eth7"
 topic=wrt2mqtt
 mqttpub="mosquitto_pub"
 interval=20
-rxlimit=3000
-txlimit=400
+rxlimit=2000
+txlimit=500
 model=$(cat /proc/cpuinfo | grep machine | awk '{ print $3 }')
 
 ###
@@ -38,6 +38,21 @@ $mqttpub -t "homeassistant/sensor/${id}/${devx}_${1}/config" \
  "state_topic":"'"$topic/${id}/${devx}_${1}"'",
  "availability_topic":"'$topic/${id}/status'",
  "unique_id":"'"${id}_${devx}_$1"'",
+ "device":{
+   "identifiers":"'${id}'",
+   "name":"'"$name"'",
+   "model":"'"$model"'"}
+ }'
+#
+$mqttpub -t "homeassistant/sensor/${id}/${devx}_${1}_limit/config" \
+-m '{
+ "unit_of_measurement":"kB/s",
+ "expire_after":"60",
+ "icon":"'$icon'",
+ "name":"'"$name $dev $3 L"'",
+ "state_topic":"'"$topic/${id}/${devx}_${1}_limit"'",
+ "availability_topic":"'$topic/${id}/status'",
+ "unique_id":"'"${id}_${devx}_${1}_limit"'",
  "device":{
    "identifiers":"'${id}'",
    "name":"'"$name"'",
@@ -89,6 +104,9 @@ txbb=$(echo "$getbytes" | awk '{ print $8 }')
 result_rx=""; result_rx=$( expr $(expr $rxbb - $rxaa) / 1024 / $interval )
 result_tx=""; result_tx=$( expr $(expr $txbb - $txaa) / 1024 / $interval )
 
+$mqttpub -t $topic/${id}/${devx}_rx -m $result_rx
+$mqttpub -t $topic/${id}/${devx}_tx -m $result_tx
+
 if [ $result_rx -gt $rxlimit ]
 then
 result_rx=$rxlimit
@@ -101,8 +119,8 @@ fi
 
 devx=$(echo $1 | sed 's/\./_/g')
 
-$mqttpub -t $topic/${id}/${devx}_rx -m $result_rx
-$mqttpub -t $topic/${id}/${devx}_tx -m $result_tx
+$mqttpub -t $topic/${id}/${devx}_rx_limit -m $result_rx
+$mqttpub -t $topic/${id}/${devx}_tx_limit -m $result_tx
 
 }
 
