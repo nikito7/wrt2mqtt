@@ -7,8 +7,9 @@ id=wan_rt1
 devlist="eth5 eth7"
 topic=wrt2mqtt
 host=8.8.8.8
+count=5
 interval=30
-limit=400
+limit=300
 mqttpub="mosquitto_pub"
 model=$(cat /proc/cpuinfo | grep machine | awk '{ print $3 }')
 
@@ -95,7 +96,7 @@ sleep $interval
 
 ping_result="-1"
 
-ping_result=$(ping -c 10 -I $1 $host | grep trip | awk -F / '{ print $4 }' | awk -F . '{ print $1 }')   
+ping_result=$(ping -c $count -I $1 $host | grep trip | awk -F / '{ print $4 }' | awk -F . '{ print $1 }')   
 
 devx=$(echo $1 | sed 's/\./_/g')
 
