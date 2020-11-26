@@ -7,8 +7,8 @@ id=wan_rt1
 devlist="eth5 eth7"
 topic=wrt2mqtt
 mqttpub="mosquitto_pub"
-interval=20
-rxlimit=2000
+interval=5
+rxlimit=1500
 txlimit=500
 model=$(cat /proc/cpuinfo | grep machine | awk '{ print $3 }')
 
