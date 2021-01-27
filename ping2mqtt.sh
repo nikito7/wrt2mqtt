@@ -2,16 +2,16 @@
 
 ### ping2mqtt.sh ###
 
-name="WAN"
-id=wan_rt1
+name="RT 1"
+id=lan_rt_1
 devlist="eth5 eth7"
 topic=wrt2mqtt
 host=8.8.8.8
 count=5
 interval=30
 limit=300
-mqttpub="mosquitto_pub"
-model=$(cat /proc/cpuinfo | grep machine | awk '{ print $3 }')
+mqttpub="mosquitto_pub -h 127.0.0.1 -u mqtt -P mqtt"
+model=$(cat /proc/cpuinfo | grep machine | awk -F ":" '{ print $2 }')
 
 ###
 
