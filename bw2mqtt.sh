@@ -2,15 +2,15 @@
 
 ### bw2mqtt.sh ###
 
-name="RT7"
-id=wan_rt7
+name="RT 7"
+id=wan_rt_7
 devlist="eth5 wlan0 wlan0.sta1 wlan0-1"
 topic=wrt2mqtt
-mqttpub="mosquitto_pub -h 127.0.0.1"
+mqttpub="mosquitto_pub -h 127.0.0.1 -u mqtt -P mqtt"
 interval=5
-rxlimit=1500
-txlimit=500
-model=$(cat /proc/cpuinfo | grep machine | awk '{ print $3 }')
+rxlimit=500
+txlimit=1500
+model=$(cat /proc/cpuinfo | grep machine | awk -F ":" '{ print $2 }')
 
 ###
 
