@@ -2,9 +2,9 @@
 
 ### bw2mqtt.sh ###
 
-name="WAN"
-id=wan_rt1
-devlist="eth5 eth7"
+name="RT7"
+id=wan_rt7
+devlist="eth5 wlan0 wlan0.sta1 wlan0-1"
 topic=wrt2mqtt
 mqttpub="mosquitto_pub"
 interval=5
