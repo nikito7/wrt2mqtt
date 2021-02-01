@@ -6,7 +6,7 @@ name="RT 7"
 id=wan_rt_7
 devlist="eth5 wlan0 wlan0.sta1 wlan0-1"
 topic=wrt2mqtt
-mqttpub="mosquitto_pub -h 127.0.0.1 -u mqtt -P mqtt"
+mqttpub="mosquitto_pub -h 10.1.0.48 -u mqtt -P mqtt"
 interval=5
 rxlimit=500
 txlimit=1500
@@ -100,6 +100,16 @@ sleep $interval
 getbytes=""; getbytes=$(ifconfig $1 | grep bytes: | sed 's/:/\ /g')
 rxbb=$(echo "$getbytes" | awk '{ print $3 }')
 txbb=$(echo "$getbytes" | awk '{ print $8 }')
+
+if [ $rxbb -lt $rxaa ]
+then
+rxbb=$rxaa
+fi
+
+if [ $txbb -lt $txaa ]
+then
+txbb=$txaa
+fi
 
 result_rx=""; result_rx=$( expr $(expr $rxbb - $rxaa) / 1024 / $interval )
 result_tx=""; result_tx=$( expr $(expr $txbb - $txaa) / 1024 / $interval )
