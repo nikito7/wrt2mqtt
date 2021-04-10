@@ -2,11 +2,11 @@
 
 ### ping2mqtt.sh ###
 
-name="RT 1"
-id=lan_rt_1
-devlist="eth5 eth7"
+name="RT 90"
+id=lan_rt_90
+devlist="br-lan vpn1"
 topic=wrt2mqtt
-host=8.8.8.8
+host=1.1.1.1
 count=5
 interval=30
 limit=300
