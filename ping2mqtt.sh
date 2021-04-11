@@ -84,7 +84,7 @@ $mqttpub -t "homeassistant/sensor/${id}/${devx}_${1}_limit/config" \
 
 ###
 
-if [ $counter -eq 0 ]
+if [ $counter -eq 1 ]
 then
 for dev in $devlist
 do
@@ -94,7 +94,7 @@ fi
 
 ###
 
-if [ $counter -eq 0 ]
+if [ $counter -eq 1 ]
 then
 $mqttpub -t "homeassistant/binary_sensor/${id}/${id}_status/config" \
 -m '{
