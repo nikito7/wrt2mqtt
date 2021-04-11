@@ -10,9 +10,12 @@ host=1.1.1.1
 count=5
 interval=30
 limit=300
-model=$(cat /proc/cpuinfo | grep machine | awk -F ":" '{ print $2 }')
 secrets=/root/secrets
 skip_config=10
+
+###
+
+model=$(cat /proc/cpuinfo | grep machine | awk -F ":" '{ print $2 }')
 mqttpub="mosquitto_pub -h \
 cat $secrets | grep server | awk -F = '{ print $2 }' -u \
 cat $secrets | grep user | awk -F = '{ print $2 }' -P \
@@ -47,8 +50,6 @@ icon=$2
 dev=$4
 devx=$(echo $4 | sed 's/\./_/g')
 #
-if [ $counter -eq 0 ]
-then
 $mqttpub -t "homeassistant/sensor/${id}/${devx}_${1}/config" \
 -m '{
  "unit_of_measurement":"ms",
@@ -63,7 +64,6 @@ $mqttpub -t "homeassistant/sensor/${id}/${devx}_${1}/config" \
    "name":"'"$name"'",
    "model":"'"$model"'"}
  }'
-fi
 #
 $mqttpub -t "homeassistant/sensor/${id}/${devx}_${1}_limit/config" \
 -m '{
@@ -84,10 +84,13 @@ $mqttpub -t "homeassistant/sensor/${id}/${devx}_${1}_limit/config" \
 
 ###
 
+if [ $counter -eq 0 ]
+then
 for dev in $devlist
 do
 home ping mdi:gauge Ping $dev
 done
+fi
 
 ###
 
