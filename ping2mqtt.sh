@@ -12,6 +12,8 @@ interval=30
 limit=300
 mqttpub="mosquitto_pub -h 127.0.0.1 -u mqtt -P mqtt"
 model=$(cat /proc/cpuinfo | grep machine | awk -F ":" '{ print $2 }')
+secrets=/root/secrets
+skip_config=10
 
 ###
 
@@ -20,6 +22,18 @@ $mqttpub -t $topic/${id}/status -m online
 if [ $1 ]
 then
 devlist=$1
+fi
+
+if [ $2 ]
+then
+counter=$(( $2 + 1 ))
+else
+counter=0
+fi
+
+if [ $counter -gt $skip_config ]
+then
+counter=0
 fi
 
 ###
