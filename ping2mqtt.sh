@@ -11,15 +11,15 @@ count=5
 interval=30
 limit=300
 secrets=/root/secrets
-skip_config=10
+skip_config=9
 
 ###
 
 model=$(cat /proc/cpuinfo | grep machine | awk -F ":" '{ print $2 }')
 mqttpub="mosquitto_pub -h \
-cat $secrets | grep server | awk -F = '{ print $2 }' -u \
-cat $secrets | grep user | awk -F = '{ print $2 }' -P \
-cat $secrets | grep pass | awk -F = '{ print $2 }'"
+$(cat $secrets | grep server | awk -F = '{ print $2 }') -u \
+$(cat $secrets | grep user | awk -F = '{ print $2 }') -P \
+$(cat $secrets | grep pass | awk -F = '{ print $2 }')"
 
 ###
 
