@@ -4,7 +4,7 @@
 
 name="RT 90"
 id=lan_rt_90
-devlist="br-lan test1"
+devlist="eth1 eth0"
 topic=wrt2mqtt
 host=1.1.1.1
 count=5
@@ -14,11 +14,16 @@ secrets=/root/secrets
 
 ###
 
+function get()
+{
+cat $secrets | grep $1 | awk -F "=" '{ print $2 }'
+}
+
 model=$(cat /proc/cpuinfo | grep machine | awk -F ":" '{ print $2 }')
 mqttpub="mosquitto_pub -h \
-$(cat $secrets | grep server | awk -F = '{ print $2 }') -u \
-$(cat $secrets | grep user | awk -F = '{ print $2 }') -P \
-$(cat $secrets | grep pass | awk -F = '{ print $2 }')"
+$(get host) -u \
+$(get user) -P \
+$(get pass)"
 
 ###
 
@@ -27,11 +32,12 @@ $mqttpub -t $topic/${id}/status -m online
 if [ $1 ]
 then
 devlist=$1
+sleep $interval
 fi
 
 ###
 
-function home()
+function homeconf()
 {
 icon=$2
 dev=$4
@@ -73,7 +79,7 @@ $mqttpub -t "homeassistant/sensor/${id}/${devx}_${1}_limit/config" \
 
 for dev in $devlist
 do
-home ping mdi:gauge Ping $dev
+homeconf ping mdi:gauge Ping $dev
 done
 
 ###
@@ -107,7 +113,7 @@ devx=$(echo $1 | sed 's/\./_/g' | sed 's/-/_/g')
 
 $mqttpub -t $topic/${id}/${devx}_ping -m $ping_result
 
-if [ $ping_result -gt $limit ]
+if [ "$ping_result" -gt "$limit" ]
 then
 ping_result=$limit
 fi
@@ -120,10 +126,6 @@ for dev in $devlist
 do
 stats $dev
 done
-
-###
-
-sleep $interval
 
 ###
 
