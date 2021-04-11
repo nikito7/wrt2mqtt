@@ -10,10 +10,13 @@ host=1.1.1.1
 count=5
 interval=30
 limit=300
-mqttpub="mosquitto_pub -h 127.0.0.1 -u mqtt -P mqtt"
 model=$(cat /proc/cpuinfo | grep machine | awk -F ":" '{ print $2 }')
 secrets=/root/secrets
 skip_config=10
+mqttpub="mosquitto_pub -h \
+cat $secrets | grep server | awk -F = '{ print $2 }' -u \
+cat $secrets | grep user | awk -F = '{ print $2 }' -P \
+cat $secrets | grep pass | awk -F = '{ print $2 }'"
 
 ###
 
