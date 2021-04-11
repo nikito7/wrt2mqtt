@@ -11,7 +11,6 @@ count=5
 interval=30
 limit=300
 secrets=/root/secrets
-skip_config=9
 
 ###
 
@@ -28,18 +27,6 @@ $mqttpub -t $topic/${id}/status -m online
 if [ $1 ]
 then
 devlist=$1
-fi
-
-if [ $2 ]
-then
-counter=$(( $2 + 1 ))
-else
-counter=0
-fi
-
-if [ $counter -gt $skip_config ]
-then
-counter=0
 fi
 
 ###
@@ -84,18 +71,13 @@ $mqttpub -t "homeassistant/sensor/${id}/${devx}_${1}_limit/config" \
 
 ###
 
-if [ $counter -eq 1 ]
-then
 for dev in $devlist
 do
 home ping mdi:gauge Ping $dev
 done
-fi
 
 ###
 
-if [ $counter -eq 1 ]
-then
 $mqttpub -t "homeassistant/binary_sensor/${id}/${id}_status/config" \
 -m '{
  "device_class":"connectivity",
@@ -111,7 +93,6 @@ $mqttpub -t "homeassistant/binary_sensor/${id}/${id}_status/config" \
    "name":"'"$name"'",
    "model":"'"$model"'"}
 }'
-fi
 
 ###
 
@@ -146,7 +127,7 @@ done
 
 for dev in $devlist
 do
-/bin/sh $0 $dev $counter &
+/bin/sh $0 $dev &
 done
 
 ### ping2mqtt.sh ###
