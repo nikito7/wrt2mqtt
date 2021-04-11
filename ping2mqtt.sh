@@ -44,6 +44,8 @@ icon=$2
 dev=$4
 devx=$(echo $4 | sed 's/\./_/g')
 #
+if [ $counter -eq 0 ]
+then
 $mqttpub -t "homeassistant/sensor/${id}/${devx}_${1}/config" \
 -m '{
  "unit_of_measurement":"ms",
@@ -58,6 +60,7 @@ $mqttpub -t "homeassistant/sensor/${id}/${devx}_${1}/config" \
    "name":"'"$name"'",
    "model":"'"$model"'"}
  }'
+fi
 #
 $mqttpub -t "homeassistant/sensor/${id}/${devx}_${1}_limit/config" \
 -m '{
@@ -85,6 +88,8 @@ done
 
 ###
 
+if [ $counter -eq 0 ]
+then
 $mqttpub -t "homeassistant/binary_sensor/${id}/${id}_status/config" \
 -m '{
  "device_class":"connectivity",
@@ -100,6 +105,7 @@ $mqttpub -t "homeassistant/binary_sensor/${id}/${id}_status/config" \
    "name":"'"$name"'",
    "model":"'"$model"'"}
 }'
+fi
 
 ###
 
@@ -134,7 +140,7 @@ done
 
 for dev in $devlist
 do
-/bin/sh $0 $dev &
+/bin/sh $0 $dev $counter &
 done
 
 ### ping2mqtt.sh ###
