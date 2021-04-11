@@ -21,7 +21,7 @@ cat $secrets | grep $1 | awk -F "=" '{ print $2 }'
 
 model=$(cat /proc/cpuinfo | grep machine | awk -F ":" '{ print $2 }')
 mqttpub="mosquitto_pub -h \
-$(get host) -u \
+$(get server) -u \
 $(get user) -P \
 $(get pass)"
 
