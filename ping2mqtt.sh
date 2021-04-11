@@ -4,7 +4,7 @@
 
 name="RT 90"
 id=lan_rt_90
-devlist="br-lan vpn1"
+devlist="br-lan test1"
 topic=wrt2mqtt
 host=1.1.1.1
 count=5
@@ -99,8 +99,6 @@ $mqttpub -t "homeassistant/binary_sensor/${id}/${id}_status/config" \
 function stats()
 {
 
-sleep $interval
-
 ping_result="-1"
 
 ping_result=$(ping -c $count -I $1 $host | grep trip | awk -F / '{ print $4 }' | awk -F . '{ print $1 }')   
@@ -122,6 +120,10 @@ for dev in $devlist
 do
 stats $dev
 done
+
+###
+
+sleep $interval
 
 ###
 
