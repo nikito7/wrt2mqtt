@@ -35,12 +35,12 @@ function home()
 {
 icon=$2
 dev=$4
-devx=$(echo $4 | sed 's/\./_/g')
+devx=$(echo $4 | sed 's/\./_/g' | sed 's/-/_/g')
 #
 $mqttpub -t "homeassistant/sensor/${id}/${devx}_${1}/config" \
 -m '{
  "unit_of_measurement":"ms",
- "expire_after":"90",
+ "expire_after":"120",
  "icon":"'$icon'",
  "name":"'"$name $dev $3"'",
  "state_topic":"'"$topic/${id}/${devx}_${1}"'",
@@ -55,7 +55,7 @@ $mqttpub -t "homeassistant/sensor/${id}/${devx}_${1}/config" \
 $mqttpub -t "homeassistant/sensor/${id}/${devx}_${1}_limit/config" \
 -m '{
  "unit_of_measurement":"ms",
- "expire_after":"90",
+ "expire_after":"120",
  "icon":"'$icon'",
  "name":"'"$name $dev $3 L"'",
  "state_topic":"'"$topic/${id}/${devx}_${1}_limit"'",
@@ -83,7 +83,7 @@ $mqttpub -t "homeassistant/binary_sensor/${id}/${id}_status/config" \
  "device_class":"connectivity",
  "payload_on":"online",
  "payload_off":"offline",
- "expire_after":"90",
+ "expire_after":"120",
  "name":"'"$name Status"'",
  "state_topic":"'"$topic/${id}/status"'",
  "availability_topic":"'$topic/${id}/status'",
@@ -105,7 +105,7 @@ ping_result="-1"
 
 ping_result=$(ping -c $count -I $1 $host | grep trip | awk -F / '{ print $4 }' | awk -F . '{ print $1 }')   
 
-devx=$(echo $1 | sed 's/\./_/g')
+devx=$(echo $1 | sed 's/\./_/g' | sed 's/-/_/g')
 
 $mqttpub -t $topic/${id}/${devx}_ping -m $ping_result
 
