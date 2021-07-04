@@ -6,11 +6,22 @@ name="RT 7"
 id=wan_rt_7
 devlist="eth5 wlan0 wlan0.sta1 wlan0-1"
 topic=wrt2mqtt
-mqttpub="mosquitto_pub -h 10.1.0.48 -u mqtt -P mqtt"
 interval=5
 rxlimit=500
 txlimit=1500
+
+###
+
+function get()
+{
+cat $secrets | grep $1 | awk -F "=" '{ print $2 }'
+}
+
 model=$(cat /proc/cpuinfo | grep machine | awk -F ":" '{ print $2 }')
+mqttpub="mosquitto_pub -h \
+$(get server) -u \
+$(get user) -P \
+$(get pass)"
 
 ###
 
