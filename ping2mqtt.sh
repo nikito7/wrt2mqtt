@@ -10,7 +10,7 @@ host=1.1.1.1
 count=5
 interval=30
 limit=300
-secrets=/root/secrets
+secrets=/root/secrets.sh
 
 ###
 
