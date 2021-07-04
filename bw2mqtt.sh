@@ -10,7 +10,9 @@ interval=5
 rxlimit=500
 txlimit=1500
 
-###
+### global code ###
+
+secrets=/root/secrets.sh
 
 function get()
 {
