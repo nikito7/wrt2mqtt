@@ -2,9 +2,9 @@
 
 ### bw2mqtt.sh ###
 
-name="RT 7"
-id=wan_rt_7
-devlist="eth5 wlan0 wlan0.sta1 wlan0-1"
+name="RT 1"
+id=lan_rt_1
+devlist="wan eth0"
 topic=wrt2mqtt
 interval=5
 rxlimit=500
