@@ -2,14 +2,14 @@
 
 ### ping2mqtt.sh ###
 
-name="RT 90"
-id=lan_rt_90
-devlist="eth1 eth0"
+name="RT 1"
+id=lan_rt_1
+devlist="wan eth0"
 topic=wrt2mqtt
-host=8.8.8.8
+host=1.1.1.1
 count=5
 interval=30
-limit=300
+limit=100
 
 ### global code ###
 
