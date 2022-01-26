@@ -7,7 +7,7 @@ id=lan_rt_1
 devlist="wan eth0"
 topic=wrt2mqtt
 interval=5
-rxlimit=500
+rxlimit=1500
 txlimit=1500
 
 ### global code ###
