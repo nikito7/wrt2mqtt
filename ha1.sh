@@ -1,7 +1,7 @@
 #!/bin/sh
 
-name="ha super device"
-id=ha_device_001
+name="EB Discovery"
+id=eb_discovery
 secrets=/root/secrets.sh
 
 function get()
@@ -20,9 +20,9 @@ $mqttpub -t "homeassistant/binary_sensor/${id}/${id}_status/config" \
  "device_class":"connectivity",
  "payload_on":"online",
  "payload_off":"offline",
- "name":"'"$name Status"'",
- "state_topic":"'"tele/edpbox1/LWT"'",
- "availability_topic":"'tele/edpbox1/LWT'",
+ "name":"Status",
+ "state_topic":"tele/edpbox1/LWT",
+ "availability_topic":"tele/edpbox1/LWT",
  "unique_id":"'"${id}_status"'",
  "device":{
    "identifiers":"'${id}'",
@@ -30,4 +30,16 @@ $mqttpub -t "homeassistant/binary_sensor/${id}/${id}_status/config" \
    "model":"'"$model"'"}
 }'
 
+$mqttpub -t "homeassistant/sensor/${id}/xxxx/config" \
+-m '{
+ "unit_of_measurement":"ms",
+ "icon":"mdi:chip",
+ "name":"xxxxx",
+ "state_topic":"tele/edpbox1/STATE",
+ "value_template":"{{ ( value_json.UptimeSec / 3600 ) | round(1) }}",
+ "unique_id":"'"${id}_xxxxx"'",
+ "device":{
+   "identifiers":"'${id}'",
+}'
 
+#
