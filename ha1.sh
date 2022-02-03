@@ -39,7 +39,7 @@ $mqttpub -t "homeassistant/sensor/${id}/xxxx/config" \
  "value_template":"{{ ( value_json.UptimeSec / 3600 ) | round(1) }}",
  "unique_id":"'"${id}_xxxxx"'",
  "device":{
-   "identifiers":"'${id}'",
+   "identifiers":"'${id}'"}
 }'
 
 #
