@@ -27,23 +27,6 @@ $(get pass)"
 
 ### ### ###
 
-$mqttpub -t $topic/${id}/status -m online
-
-if [ $1 ]
-then
-devlist=$1
-else
-##
-for dev in $devlist
-do
-home rx mdi:arrow-down RX $dev
-home tx mdi:arrow-up TX $dev
-done
-##
-fi
-
-### ### ###
-
 function home()
 {
 icon=$2
@@ -146,6 +129,25 @@ $mqttpub -t $topic/${id}/${devx}_rx_limit -m $result_rx
 $mqttpub -t $topic/${id}/${devx}_tx_limit -m $result_tx
 
 }
+
+### ### ###
+
+$mqttpub -t $topic/${id}/status -m online
+
+if [ $1 ]
+then
+devlist=$1
+else
+##
+for dev in $devlist
+do
+home rx mdi:arrow-down RX $dev
+home tx mdi:arrow-up TX $dev
+done
+##
+fi
+
+### ### ###
 
 for dev in $devlist
 do
