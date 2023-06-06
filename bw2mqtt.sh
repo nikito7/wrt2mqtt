@@ -65,22 +65,6 @@ $mqttpub -t "homeassistant/sensor/${id}/${devx}_${1}_limit/config" \
    "model":"'"$model"'"}
  }'
 ##
-$mqttpub -t "homeassistant/binary_sensor/${id}/${id}_status/config" \
--m '{
- "device_class":"connectivity",
- "payload_on":"online",
- "payload_off":"offline",
- "expire_after":"300",
- "name":"'"$name Status"'",
- "state_topic":"'"$topic/${id}/status"'",
- "availability_topic":"'$topic/${id}/status'",
- "unique_id":"'"${id}_status"'",
- "device":{
-   "identifiers":"'${id}'",
-   "name":"'"$name"'",
-   "model":"'"$model"'"}
-}'
-##
 }
 
 ### ### ###
@@ -131,21 +115,36 @@ $mqttpub -t $topic/${id}/${devx}_tx_limit -m $result_tx
 }
 
 ### ### ###
+### ### ###
+
+$mqttpub -t "homeassistant/binary_sensor/${id}/${id}_status/config" \
+-m '{
+ "device_class":"connectivity",
+ "payload_on":"online",
+ "payload_off":"offline",
+ "expire_after":"300",
+ "name":"'"$name Status"'",
+ "state_topic":"'"$topic/${id}/status"'",
+ "availability_topic":"'$topic/${id}/status'",
+ "unique_id":"'"${id}_status"'",
+ "device":{
+   "identifiers":"'${id}'",
+   "name":"'"$name"'",
+   "model":"'"$model"'"}
+}'
 
 $mqttpub -t $topic/${id}/status -m online
 
 if [ $1 ]
 then
 devlist=$1
-else
-##
+fi
+
 for dev in $devlist
 do
 home rx mdi:arrow-down RX $dev
 home tx mdi:arrow-up TX $dev
 done
-##
-fi
 
 ### ### ###
 
