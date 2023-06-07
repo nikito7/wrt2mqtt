@@ -33,7 +33,7 @@ icon=$2
 dev=$4
 devx=$(echo $4 | sed 's/\./_/g')
 ##
-$mqttpub -t "homeassistant/sensor/${id}/${devx}_${1}/config" \
+$mqttpub -r -t "homeassistant/sensor/${id}/${devx}_${1}/config" \
 -m '{
  "unit_of_measurement":"kB/s",
  "state_class":"measurement",
@@ -49,7 +49,7 @@ $mqttpub -t "homeassistant/sensor/${id}/${devx}_${1}/config" \
    "model":"'"$model"'"}
  }'
 ##
-$mqttpub -t "homeassistant/sensor/${id}/${devx}_${1}_limit/config" \
+$mqttpub -r -t "homeassistant/sensor/${id}/${devx}_${1}_limit/config" \
 -m '{
  "unit_of_measurement":"kB/s",
  "state_class":"measurement",
@@ -117,7 +117,18 @@ $mqttpub -t $topic/${id}/${devx}_tx_limit -m $result_tx
 ### ### ###
 ### ### ###
 
-$mqttpub -t "homeassistant/binary_sensor/${id}/${id}_status/config" \
+if [ $1 ]
+then
+devlist=$1
+else
+##
+for dev in $devlist
+do
+home rx mdi:arrow-down RX $dev
+home tx mdi:arrow-up TX $dev
+done
+##
+$mqttpub -r -t "homeassistant/binary_sensor/${id}/${id}_status/config" \
 -m '{
  "device_class":"connectivity",
  "payload_on":"online",
@@ -132,27 +143,20 @@ $mqttpub -t "homeassistant/binary_sensor/${id}/${id}_status/config" \
    "name":"'"$name"'",
    "model":"'"$model"'"}
 }'
-
-$mqttpub -t $topic/${id}/status -m online
-
-if [ $1 ]
-then
-devlist=$1
+##
 fi
 
-for dev in $devlist
-do
-home rx mdi:arrow-down RX $dev
-home tx mdi:arrow-up TX $dev
-done
-
 ### ### ###
+### ### ###
+
+$mqttpub -t $topic/${id}/status -m online
 
 for dev in $devlist
 do
 stats $dev
 done
 
+### ### ###
 ### ### ###
 
 for dev in $devlist
