@@ -2,11 +2,11 @@
 
 ### ping2mqtt.sh ###
 
-name="RT 1"
-id=lan_rt_1
-devlist="wan eth0"
+name="RT1"
+id=lan_rt1
+devlist="wan"
 topic=wrt2mqtt
-host=1.1.1.1
+host=8.8.8.8
 count=5
 interval=30
 limit=100
@@ -27,15 +27,6 @@ $(get user) -P \
 $(get pass)"
 
 ###
-
-$mqttpub -t $topic/${id}/status -m online
-
-if [ $1 ]
-then
-devlist=$1
-sleep $interval
-fi
-
 ###
 
 function homeconf()
@@ -44,7 +35,7 @@ icon=$2
 dev=$4
 devx=$(echo $4 | sed 's/\./_/g' | sed 's/-/_/g')
 #
-$mqttpub -t "homeassistant/sensor/${id}/${devx}_${1}/config" \
+$mqttpub -r -t "homeassistant/sensor/${id}/${devx}_${1}/config" \
 -m '{
  "unit_of_measurement":"ms",
  "state_class":"measurement",
@@ -60,7 +51,7 @@ $mqttpub -t "homeassistant/sensor/${id}/${devx}_${1}/config" \
    "model":"'"$model"'"}
  }'
 #
-$mqttpub -t "homeassistant/sensor/${id}/${devx}_${1}_limit/config" \
+$mqttpub -r -t "homeassistant/sensor/${id}/${devx}_${1}_limit/config" \
 -m '{
  "unit_of_measurement":"ms",
  "state_class":"measurement",
@@ -77,31 +68,6 @@ $mqttpub -t "homeassistant/sensor/${id}/${devx}_${1}_limit/config" \
  }'
 #
 }
-
-###
-
-for dev in $devlist
-do
-homeconf ping mdi:gauge Ping $dev
-done
-
-###
-
-$mqttpub -t "homeassistant/binary_sensor/${id}/${id}_status/config" \
--m '{
- "device_class":"connectivity",
- "payload_on":"online",
- "payload_off":"offline",
- "expire_after":"120",
- "name":"'"$name Status"'",
- "state_topic":"'"$topic/${id}/status"'",
- "availability_topic":"'$topic/${id}/status'",
- "unique_id":"'"${id}_status"'",
- "device":{
-   "identifiers":"'${id}'",
-   "name":"'"$name"'",
-   "model":"'"$model"'"}
-}'
 
 ###
 
@@ -124,6 +90,41 @@ fi
 $mqttpub -t $topic/${id}/${devx}_ping_limit -m $ping_result
 
 }
+
+###
+
+$mqttpub -t $topic/${id}/status -m online
+
+if [ $1 ]
+then
+devlist=$1
+sleep $interval
+else
+##
+for dev in $devlist
+do
+homeconf ping mdi:gauge Ping $dev
+done
+##
+$mqttpub -r -t "homeassistant/binary_sensor/${id}/${id}_status/config" \
+-m '{
+ "device_class":"connectivity",
+ "payload_on":"online",
+ "payload_off":"offline",
+ "expire_after":"120",
+ "name":"'"$name Status"'",
+ "state_topic":"'"$topic/${id}/status"'",
+ "availability_topic":"'$topic/${id}/status'",
+ "unique_id":"'"${id}_status"'",
+ "device":{
+   "identifiers":"'${id}'",
+   "name":"'"$name"'",
+   "model":"'"$model"'"}
+}'
+##
+fi
+
+###
 
 for dev in $devlist
 do
