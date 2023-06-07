@@ -71,13 +71,17 @@ $mqttpub -r -t "homeassistant/sensor/${id}/${devx}_${1}_limit/config" \
 
 function stats()
 {
-getbytes=""; getbytes=$(ifconfig $1 | grep bytes: | sed 's/:/\ /g')
+devx=$(echo $1 | sed 's/\./_/g')
+
+getbytes=""
+getbytes=$(ifconfig $1 | grep bytes: | sed 's/:/\ /g')
 rxaa=$(echo "$getbytes" | awk '{ print $3 }')
 txaa=$(echo "$getbytes" | awk '{ print $8 }')
 
 sleep $interval
 
-getbytes=""; getbytes=$(ifconfig $1 | grep bytes: | sed 's/:/\ /g')
+getbytes=""
+getbytes=$(ifconfig $1 | grep bytes: | sed 's/:/\ /g')
 rxbb=$(echo "$getbytes" | awk '{ print $3 }')
 txbb=$(echo "$getbytes" | awk '{ print $8 }')
 
@@ -106,8 +110,6 @@ if [ $result_tx -gt $txlimit ]
 then
 result_tx=$txlimit
 fi
-
-devx=$(echo $1 | sed 's/\./_/g')
 
 $mqttpub -t $topic/${id}/${devx}_rx_limit -m $result_rx
 $mqttpub -t $topic/${id}/${devx}_tx_limit -m $result_tx
