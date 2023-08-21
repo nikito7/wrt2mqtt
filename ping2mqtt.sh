@@ -13,11 +13,11 @@ limit=100
 
 ### global code ###
 
-secrets=/root/secrets.sh
+secrets=/root/secrets.yaml
 
 function get()
 {
-cat $secrets | grep $1 | awk -F "=" '{ print $2 }'
+cat $secrets | grep $1 | awk -F ": " '{ print $2 }'
 }
 
 model=$(cat /proc/cpuinfo | grep machine | awk -F ":" '{ print $2 }')
@@ -41,7 +41,7 @@ $mqttpub -r -t "homeassistant/sensor/${id}/${devx}_${1}/config" \
  "state_class":"measurement",
  "expire_after":"120",
  "icon":"'$icon'",
- "name":"'"$name $dev $3"'",
+ "name":"'"$dev $3"'",
  "state_topic":"'"$topic/${id}/${devx}_${1}"'",
  "availability_topic":"'$topic/${id}/status'",
  "unique_id":"'"${id}_${devx}_$1"'",
@@ -57,7 +57,7 @@ $mqttpub -r -t "homeassistant/sensor/${id}/${devx}_${1}_limit/config" \
  "state_class":"measurement",
  "expire_after":"120",
  "icon":"'$icon'",
- "name":"'"$name $dev $3 L"'",
+ "name":"'"$dev $3 L"'",
  "state_topic":"'"$topic/${id}/${devx}_${1}_limit"'",
  "availability_topic":"'$topic/${id}/status'",
  "unique_id":"'"${id}_${devx}_${1}_limit"'",
@@ -112,7 +112,7 @@ $mqttpub -r -t "homeassistant/binary_sensor/${id}/${id}_status/config" \
  "payload_on":"online",
  "payload_off":"offline",
  "expire_after":"120",
- "name":"'"$name Status"'",
+ "name":"'"Status"'",
  "state_topic":"'"$topic/${id}/status"'",
  "availability_topic":"'$topic/${id}/status'",
  "unique_id":"'"${id}_status"'",
